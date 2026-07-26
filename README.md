@@ -1,5 +1,8 @@
 # ☕ Premium Café Website (Full-Stack Application)
 
+## 🚀 Live Demo & Deployment
+- **Live URL:** [https://aura-premium-cafe.vercel.app/](https://aura-premium-cafe.vercel.app/)
+
 A full-stack, production-ready web application designed for a luxury café business. Features an opulent customer-facing website and an administrative dashboard for managing reservations, menu items, upcoming events, and customer inquiries.
 
 ---
