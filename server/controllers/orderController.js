@@ -1,7 +1,10 @@
 const Order = require('../models/Order');
 const OrderItem = require('../models/OrderItem');
 const MenuItem = require('../models/MenuItem');
+const setupAssociations = require('../models/associations');
 const { Op } = require('sequelize');
+
+setupAssociations();
 
 // @desc    Create a new order (Dine-in, Takeaway, Delivery)
 // @route   POST /api/orders

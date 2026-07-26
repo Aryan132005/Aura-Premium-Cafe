@@ -65,7 +65,7 @@ const rebindModels = (instance) => {
   if (fs.existsSync(modelsPath)) {
     const files = fs.readdirSync(modelsPath);
     files.forEach(file => {
-      if (file.endsWith('.js')) {
+      if (file.endsWith('.js') && file !== 'associations.js') {
         const model = require(path.join(modelsPath, file));
         if (model && model.init && model.rawAttributes) {
           model.init(model.rawAttributes, {
@@ -76,6 +76,10 @@ const rebindModels = (instance) => {
       }
     });
   }
+
+  // Re-register associations lazily after models are initialized
+  const setupAssociations = require('../models/associations');
+  setupAssociations();
 };
 
 module.exports = {
