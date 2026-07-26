@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production build outputs
+dist/
+**/dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local SQLite Database & Uploads
+server/cafe.sqlite
+cafe.sqlite
+
+# System / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
