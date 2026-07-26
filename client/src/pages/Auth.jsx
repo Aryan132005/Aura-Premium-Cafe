@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Coffee, Shield, User, Lock, Mail, Phone, ArrowRight } from 'lucide-react';
+import { Coffee, Shield, User, Lock, Mail, Phone, ArrowRight, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Auth = () => {
@@ -36,15 +36,17 @@ const Auth = () => {
     setLoading(false);
   };
 
+  const handleTabChange = (toLogin) => {
+    setIsLogin(toLogin);
+    setEmail('');
+    setPassword('');
+    setName('');
+    setPhone('');
+  };
+
   const setAdminDemo = () => {
     setEmail('admin@premiumcafe.com');
     setPassword('adminpassword123');
-    setIsLogin(true);
-  };
-
-  const setCustomerDemo = () => {
-    setEmail('john@example.com');
-    setPassword('customerpassword123');
     setIsLogin(true);
   };
 
@@ -60,49 +62,50 @@ const Auth = () => {
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>
           <p className="text-xs text-cafe-cream/60">
-            {isLogin ? 'Access your café reservations and account profile' : 'Join Aura to manage table bookings and access private events'}
+            {isLogin
+              ? 'Access your café reservations and account profile'
+              : 'Join Aura Café — Register with your details to book tables & view orders'}
           </p>
         </div>
 
         {/* Tab Selector */}
         <div className="flex bg-cafe-dark/80 rounded-xl p-1 border border-cafe-gold/20">
           <button
-            onClick={() => setIsLogin(true)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all ${
+            type="button"
+            onClick={() => handleTabChange(true)}
+            className={`flex-1 py-2.5 text-xs font-semibold rounded-lg transition-all ${
               isLogin ? 'bg-cafe-gold text-cafe-dark shadow-md' : 'text-cafe-cream/70 hover:text-cafe-cream'
             }`}
           >
             Sign In
           </button>
           <button
-            onClick={() => setIsLogin(false)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all ${
+            type="button"
+            onClick={() => handleTabChange(false)}
+            className={`flex-1 py-2.5 text-xs font-semibold rounded-lg transition-all ${
               !isLogin ? 'bg-cafe-gold text-cafe-dark shadow-md' : 'text-cafe-cream/70 hover:text-cafe-cream'
             }`}
           >
-            Register
+            New Registration
           </button>
         </div>
 
-        {/* Quick Demo Pre-fill helper buttons */}
+        {/* Quick Helper Banner */}
         <div className="p-3 bg-cafe-gold/10 border border-cafe-gold/30 rounded-xl text-center space-y-2">
-          <span className="text-[10px] uppercase tracking-wider text-cafe-gold font-bold block">
-            ⚡ Quick Demo Credentials
-          </span>
-          <div className="flex gap-2">
+          <div className="flex items-center justify-center gap-2">
             <button
               type="button"
               onClick={setAdminDemo}
               className="flex-1 py-1.5 px-2 rounded-lg bg-cafe-card border border-cafe-gold/30 text-[11px] text-cafe-gold hover:bg-cafe-gold hover:text-cafe-dark transition-colors font-medium flex items-center justify-center gap-1"
             >
-              <Shield className="w-3 h-3" /> Admin Login
+              <Shield className="w-3.5 h-3.5" /> Admin Portal Login
             </button>
             <button
               type="button"
-              onClick={setCustomerDemo}
+              onClick={() => handleTabChange(false)}
               className="flex-1 py-1.5 px-2 rounded-lg bg-cafe-card border border-cafe-gold/30 text-[11px] text-cafe-cream hover:bg-cafe-gold hover:text-cafe-dark transition-colors font-medium flex items-center justify-center gap-1"
             >
-              <User className="w-3 h-3" /> Customer Login
+              <UserPlus className="w-3.5 h-3.5 text-cafe-gold" /> Register Any Customer
             </button>
           </div>
         </div>
@@ -111,11 +114,11 @@ const Auth = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <div>
-              <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Full Name</label>
+              <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Full Name *</label>
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="e.g. Jane Doe"
+                  placeholder="e.g. Rahul Sharma / Jane Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required={!isLogin}
@@ -127,11 +130,11 @@ const Auth = () => {
           )}
 
           <div>
-            <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Email Address</label>
+            <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Email Address *</label>
             <div className="relative">
               <input
                 type="email"
-                placeholder="name@example.com"
+                placeholder="yourname@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -142,7 +145,7 @@ const Auth = () => {
           </div>
 
           <div>
-            <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Password</label>
+            <label className="block text-xs text-cafe-cream/80 font-medium mb-1">Password *</label>
             <div className="relative">
               <input
                 type="password"
@@ -162,7 +165,7 @@ const Auth = () => {
               <div className="relative">
                 <input
                   type="tel"
-                  placeholder="+1 555-0192"
+                  placeholder="+91 9876543210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-cafe-dark/70 border border-cafe-gold/20 text-cafe-cream text-xs focus:outline-none focus:border-cafe-gold"
@@ -177,7 +180,7 @@ const Auth = () => {
             disabled={loading}
             className="w-full py-3.5 rounded-xl bg-cafe-gold hover:bg-cafe-goldHover text-cafe-dark font-serif font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xl disabled:opacity-50 mt-2"
           >
-            {loading ? 'Authenticating...' : isLogin ? 'Sign In' : 'Create Account'}
+            {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Register New Account'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>

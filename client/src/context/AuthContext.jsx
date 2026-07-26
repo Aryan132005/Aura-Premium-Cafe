@@ -40,7 +40,11 @@ export const AuthProvider = ({ children }) => {
         return { success: true, user: userData };
       }
     } catch (error) {
-      const msg = error.response?.data?.message || 'Login failed. Check email & password.';
+      const msg =
+        error.response?.data?.message ||
+        (error.code === 'ERR_NETWORK' || !error.response
+          ? 'Unable to reach server. Please ensure backend server is running on http://localhost:5000'
+          : 'Login failed. Check email & password.');
       toast.error(msg);
       return { success: false, message: msg };
     }
@@ -58,7 +62,11 @@ export const AuthProvider = ({ children }) => {
         return { success: true, user: newUser };
       }
     } catch (error) {
-      const msg = error.response?.data?.message || 'Registration failed.';
+      const msg =
+        error.response?.data?.message ||
+        (error.code === 'ERR_NETWORK' || !error.response
+          ? 'Unable to reach server. Please ensure backend server is running on http://localhost:5000'
+          : 'Registration failed.');
       toast.error(msg);
       return { success: false, message: msg };
     }
