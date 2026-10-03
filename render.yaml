@@ -17,19 +17,7 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CLIENT_URL
-        fromService:
-          type: web
-          name: aura-premium-cafe-frontend
-          property: url
-      # Optional: Add MySQL Credentials if using remote MySQL DB (otherwise defaults to SQLite)
-      # - key: MYSQL_HOST
-      #   sync: false
-      # - key: MYSQL_USER
-      #   sync: false
-      # - key: MYSQL_PASSWORD
-      #   sync: false
-      # - key: MYSQL_DATABASE
-      #   sync: false
+        sync: false
 
   # -------------------------------------------------------------
   # Frontend Static Site (React + Vite)
@@ -38,7 +26,6 @@ services:
     name: aura-premium-cafe-frontend
     runtime: static
     plan: free
-    region: singapore
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
     routes:
@@ -50,4 +37,4 @@ services:
         fromService:
           type: web
           name: aura-premium-cafe-backend
-          property: url
+          property: host
