@@ -44,7 +44,16 @@ app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Health check endpoint
+// Root & Health check endpoints
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Premium Café Backend API',
+    status: 'Operational',
+    healthCheck: '/api/health',
+    timestamp: new Date()
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
