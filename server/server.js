@@ -53,6 +53,19 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Serve frontend static files if client/dist exists (Monolithic single-service fallback)
+const fs = require('fs');
+const clientBuildPath = path.join(__dirname, '../client/dist');
+if (fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
+
 // Central Error Handler
 app.use(errorHandler);
 
